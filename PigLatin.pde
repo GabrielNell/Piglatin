@@ -1,33 +1,39 @@
-public void setup() 
-{
-	String[] lines = loadStrings("words.txt");
-	System.out.println("there are " + lines.length + " lines");
-	for (int i = 0 ; i < lines.length; i++) 
-	{
-	  System.out.println(pigLatin(lines[i]));
-	}
-}
-public void draw()
-{
-        //not used
-}
-public int findFirstVowel(String sWord)
-//precondition: sWord is a valid String of length greater than 0.
-//postcondition: returns the position of the first vowel in sWord.  If there are no vowels, returns -1
-{
-	return -1;
+String givenWord = "somerandomword";
+public void setup() {
+  System.out.println(givenWord);
+  System.out.println(translateWord(givenWord));
 }
 
-public String pigLatin(String sWord)
-//precondition: sWord is a valid String of length greater than 0
-//postcondition: returns the pig latin equivalent of sWord
-{
-	if(findFirstVowel(sWord) == -1)
-	{
-		return sWord + "ay";
-	}
-	else
-	{
-		return "ERROR!";
-	}
+
+public String translateWord(String word) {
+  String startLetter = word.substring(0, 1);
+  String wordToReturn = "";
+  if (isVowel(startLetter)) {
+    wordToReturn = word + "w";
+  } 
+  else if (word.substring(0, 2).equals("qu")) {
+    wordToReturn = word.substring(2, word.length()) + "qu";
+  } 
+  else if (!isVowel(word.substring(0, 1))) {
+    if (!isVowel(word.substring(1, 2))) {
+      wordToReturn = word.substring(2, word.length()) + word.substring(0, 2);
+      if (!isVowel(word.substring(2, 3))) {
+        wordToReturn = word.substring(3, word.length()) + word.substring(0, 3);
+      } else {
+        wordToReturn = word.substring(2, word.length()) + word.substring(0, 2);
+      }
+    } else {
+      wordToReturn = word.substring(1, word.length()) + word.substring(0, 1);
+    }
+  } else {
+    wordToReturn = word.substring(1, word.length()) + startLetter;
+  }
+  return wordToReturn + "ay";
+}
+
+public boolean isVowel(String letter) {
+  if (letter.equals("a") || letter.equals("e") || letter.equals("i") || letter.equals("o") || letter.equals("u")) {
+    return true;
+  }
+  return false;
 }
